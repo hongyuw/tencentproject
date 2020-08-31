@@ -1,0 +1,41 @@
+2020.8.6  
+
+1.后端fd的创建放到了fd.cpp里面，一个前端accept,生成cfd
+一次accept就connect一次server，并利用cfd和新生成的fd创建fd的键值对
+
+
+2.目前注释掉的地方有问题(netassistant会传输多次，和client和server不会)//应该是newassistant的问题暂时忽略(127.0.0.1禁止套娃)
+
+2020.8.7
+
+注释掉了receive中的断开连接部分，不知道以后是否会有问题
+
+2020.8.10
+
+1.收发部分放入工作线程中
+2.recv 之后send不能send sizeof(buffer),改为ret
+
+2020.8.11
+
+1.之前阻塞在read可能没问题，因为后端fd没有注册进epoll，所有阻塞在read也可以，后续可以该回去
+2.把connect的fd也改为oneshot
+3.listen fd 目前非阻塞，connect fd和accept的fd全都是阻塞模式
+
+2020.8.12
+
+1.listen fd 非阻塞，connect fd 和 accept fd改为了非阻塞
+2.触发的ONESHOT去掉了
+
+3.ONESHOT 去掉会发生第二个线程比第一个跑的快，FIN先处理，然后直接关掉了fd，发不出去，因此改为oneshot + ctl（ctl位置？）
+
+2020.8.14
+
+1.send函数的最后一个变量改为MSG_NOSIGNAL,为了防止前端意外断开而导致因SIGPIPE信号使得程序退出（遗留问题，抓不到RST包）
+2.buffer 开在while(true)外面
+
+2020.8.18
+解决异常重启,设置bind 的  socket
+
+2020.8.20
+
+设置send 的 MSG_DONTWAIT 尝试解决send error:: Resource temporarily unavailable问题

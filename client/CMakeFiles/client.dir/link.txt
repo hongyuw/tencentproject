@@ -1,0 +1,1 @@
+/usr/bin/c++       CMakeFiles/client.dir/src/big_file_upload.cc.o CMakeFiles/client.dir/src/small_file_download.cc.o CMakeFiles/client.dir/src/tcp.cpp.o CMakeFiles/client.dir/src/test.cpp.o CMakeFiles/client.dir/src/small_file_upload.cc.o CMakeFiles/client.dir/src/client.cpp.o CMakeFiles/client.dir/src/big_file_download.cc.o  -o bin/client -rdynamic -lpthread 
